@@ -41,8 +41,8 @@ class BatchProcessing():
 			j += 1
 
 		while len(self.copy) > 0:
-			os.system('cls')#Limpia Pantalla
-			self.drawActual(self.copy,(self.totalBatches-self.pendientes))
+			#os.system('cls')#Limpia Pantalla
+			#self.drawActual(self.copy,(self.totalBatches-self.pendientes))
 			#*****************************************************************
 			myValue = self.copy.popleft()
 			tt = 0
@@ -51,38 +51,43 @@ class BatchProcessing():
 				tt += 1
 				tr -= 1
 				self.cont += 1
-				#os.system('cls')#Limpia Pantalla
-				#self.drawActual(self.copy,cont)
+				os.system('cls')#Limpia Pantalla
+				self.drawActual(self.copy,(self.totalBatches-self.pendientes))
 				self.drawInProcess(self.copy,myValue,tt,tr,self.cont)
+				self.drawFinished(self.finishedQueue)
 			self.finishedQueue.append(myValue)
-			self.drawFinished(self.finishedQueue)
+			#self.drawFinished(self.finishedQueue)
 			self.flag += 1
 			if self.flag%3==0:
 				self.pendientes += 1
 		
 		if len(self.myQueue) > 0:
 			self.startProcess()
+		else:
+			os.system('cls')#Limpia Pantalla
+			self.drawActual(self.copy,(self.totalBatches-self.pendientes))
+			self.drawInProcess(self.copy,myValue,tt,tr,self.cont)
+			self.drawFinished(self.finishedQueue)
 
 
 
 	def drawActual(self,copy,pendientes):
-		print("\tNombre\t\t\tTME\n")
+		print("\tNombre\t\t\tTME")
 		for self.data in self.copy:#Hacer que imprima los primeros 3
 			print("\t",self.data.getName(),"\t\t\t",self.data.getTime(),"\n")
-		print("\n\n\n")
-		print("No. Lotes Pendientes: ",pendientes)
+		print("No. Lotes Pendientes: ",pendientes-1)
 		print("*******************************************************")
 
 	def drawInProcess(self, copy, value, tt, tr,cont):
-		print("ID: ",value.getNumber(),"\n")
-		print("Operación: \t\t",value.getOperation(),"\n")
-		print("TME: \t\t\t",value.getTime(),"\n")
-		print("TT: \t\t\t",tt,"\n")
-		print("TR: \t\t\t",tr,"\n")
-		print("Nombre: \t\t",value.getName(),"\n\n")
-		print("Contador: ",cont,"\n\n")
+		print("ID: ",value.getNumber())
+		print("Operación: \t\t",value.getOperation())
+		print("TME: \t\t\t",value.getTime())
+		print("TT: \t\t\t",tt)
+		print("TR: \t\t\t",tr)
+		print("Nombre: \t\t",value.getName())
+		print("Contador: ",cont)
 		print("*******************************************************")
-		time.sleep(5)
+		#time.sleep(3)
 
 	def drawFinished(self,finishedQueue):
 		aux = 0
@@ -91,13 +96,13 @@ class BatchProcessing():
 			print("\t","Operación: ","\t\t\t",self.data.getOperation())
 			print("\t","Resultado: ","\t\t\t",eval(self.data.getOperation()))
 			print("\t","Lote: ","\t\t\t",self.pos+1)
-			print("\n")
+			print("---------------------------------------------------")
 			aux += 1
 			if aux==3:
 				self.pos += 1
 				aux = 0
 		print("*******************************************************")
-		time.sleep(5)
+		time.sleep(3)
 		self.pos = 0
 
 		
